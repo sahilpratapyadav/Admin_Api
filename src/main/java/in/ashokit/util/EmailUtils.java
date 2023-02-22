@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 public class EmailUtils {
 	
 	@Autowired
-	private static JavaMailSender mailSender;
+	private JavaMailSender mailSender;
 	
-     static Logger logger=LoggerFactory.getLogger(EmailUtils.class);
-	public static boolean sendEmail(String to,String subject,String body) {
+     Logger logger=LoggerFactory.getLogger(EmailUtils.class);
+	public boolean sendEmail(String to,String subject,String body) {
 		boolean isSent=false;
 		try {  
 			MimeMessage mimeMessage = mailSender.createMimeMessage();

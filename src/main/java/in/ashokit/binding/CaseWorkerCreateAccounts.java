@@ -2,7 +2,14 @@ package in.ashokit.binding;
 
 import java.util.Date;
 
-public class CaseWorker {
+import lombok.Data;
+@Data
+public class CaseWorkerCreateAccounts {
+	
+private Integer accId;
+
+	
+	private Integer categoryId;
 	
 	private String fullName;
 	

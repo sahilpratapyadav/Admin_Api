@@ -1,5 +1,7 @@
 package in.ashokit.restcontroller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.ashokit.binding.CaseWorkerCreateAccounts;
 import in.ashokit.entity.CaseWorkerAccount;
 import in.ashokit.service.AdminServiceImp;
-import in.ashokit.util.EmailUtils;
 
 @RestController
 public class AdminController {
@@ -18,17 +20,15 @@ public class AdminController {
 	private AdminServiceImp adminservice;
 
 	@PostMapping("/createAc")
-	public String createCaseWorkerAccount(@RequestBody CaseWorkerAccount caseworkeraccount) {
-		String caseworkeraccountcreate = adminservice.createAccountCaseWorker(caseworkeraccount);
-		
-		/*String fileName = "RECOVER-PASSWORD-EMAIL-BODY.txt";
-		String body = readMailBodyContent(fileName, entity);
-		String subject = "Recovery Password -Ashok IT";
-		boolean isSent = EmailUtils.sendEmail(email, subject, body);
-		if (isSent) {
-			return "Password sent to register email";
-		}
-*/
+	public String createCaseWorkerAccount(@RequestBody CaseWorkerCreateAccounts caseworkerAccounts) {
+		String caseworkeraccountcreate = adminservice.createAccountCaseWorker(caseworkerAccounts);
+
+		/*
+		 * String fileName = "RECOVER-PASSWORD-EMAIL-BODY.txt"; String body =
+		 * readMailBodyContent(fileName, entity); String subject =
+		 * "Recovery Password -Ashok IT"; boolean isSent = EmailUtils.sendEmail(email,
+		 * subject, body); if (isSent) { return "Password sent to register email"; }
+		 */
 		return "account is created";
 	}
 
@@ -51,15 +51,15 @@ public class AdminController {
 	@GetMapping("/getAllCaseWorkerAccounts")
 	public String getAllAccountOfCaseWorker() {
 
-		String allAccountCaseWorker = adminservice.getAllAccountCaseWorker();
+		List<CaseWorkerAccount> allAccountCaseWorker = adminservice.getAllAccountCaseWorker();
 		return "get all account Case  wORKER" + allAccountCaseWorker;
 
 	}
+
 	@GetMapping("/edit")
 	public CaseWorkerAccount editCaseWorkerAccounts(Integer AccId) {
 		return null;
-		
+
 	}
-	
 
 }

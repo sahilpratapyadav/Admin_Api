@@ -5,9 +5,11 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import in.ashokit.binding.CaseWorkerCreateAccounts;
 import in.ashokit.entity.CaseWorkerAccount;
 import in.ashokit.repository.CaseWorkerAccountRepository;
 import in.ashokit.util.EmailUtils;
@@ -21,14 +23,17 @@ public class AdminServiceImp implements Adminservice {
 	private EmailUtils emailutils;
 
 	@Override
-	public String createAccountCaseWorker(CaseWorkerAccount caseworkerAccount) {
+	public String createAccountCaseWorker(CaseWorkerCreateAccounts caseworkerAccounts) {
+		CaseWorkerAccount entity=new CaseWorkerAccount();
+		 BeanUtils.copyProperties(caseworkerAccounts,entity);
 
-		CaseWorkerAccount entity = caseworkerrepo.save(caseworkerAccount);
-		String email = caseworkerAccount.getEmail();
-		String subject = "User Registration AshokIT";
+		CaseWorkerAccount entityy = caseworkerrepo.save(entity);
+		String email = entityy.getEmail();
+		String subject = "case Worker count is created";
 		String filename = "UNLOCK-ACC-EMAIL-BODY-TEMPLATE.txt";
 		String body = readMailBodyContent(filename, entity);
-		boolean isSent = EmailUtils.sendEmail(email, subject, body);
+		//boolean isSent = EmailUtils.sendEmail(email, subject, body);
+		boolean isSent= emailutils.sendEmail(email, subject, body);
 
 		if (entity.getAccId() != null && isSent) {
 			return "success  Account is created  CaseWorker";
@@ -91,17 +96,27 @@ public class AdminServiceImp implements Adminservice {
 		return "caseworker account is getting"+findById;
 	}
 
-	@Override
-	public String getAllAccountCaseWorker() {
+	//@Override
+	/*public List<CaseWorkerAccount> getAllAccountCaseWorker() {
 		// TODO Auto-generated method stub
 		List<CaseWorkerAccount> findAll = caseworkerrepo.findAll();
-		return "get casework account"+findAll;
-	}
+		return findAll;
+	}*/
+	
+	
 
 	@Override
 	public CaseWorkerAccount editCaseWorkertAccounts(Integer AccId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public List<CaseWorkerAccount> getAllAccountCaseWorker() {
+		List<CaseWorkerAccount> findAll = caseworkerrepo.findAll();
+		// TODO Auto-generated method stub
+		return findAll;
 	}
 
 }
